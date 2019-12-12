@@ -9,6 +9,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.daggerpractice.R;
 
 
+import javax.inject.Singleton;
+
 import androidx.core.content.ContextCompat;
 import dagger.Module;
 import dagger.Provides;
@@ -18,6 +20,7 @@ public class AppModule {
 
 
     //dependency  to use glide
+    @Singleton
     @Provides
     static RequestOptions provideRequestOptions() {
         return RequestOptions.placeholderOf(R.drawable.white_background)
@@ -25,6 +28,7 @@ public class AppModule {
     }
 
     //dependency for glide instance
+    @Singleton
     @Provides
     static RequestManager provideGlideInstance(Application application, RequestOptions requestOptions) {
         return Glide.with(application)
@@ -32,6 +36,7 @@ public class AppModule {
     }
 
     //dependency for drawable res for logo
+    @Singleton
     @Provides
     static Drawable provideAppDrwable(Application application) {
         return ContextCompat.getDrawable(application, R.drawable.logo);
