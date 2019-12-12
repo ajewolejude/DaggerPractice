@@ -1,34 +1,40 @@
 package com.example.daggerpractice.di;
 
 import android.app.Application;
+import android.graphics.drawable.Drawable;
 
-import javax.inject.Named;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.request.RequestOptions;
+import com.example.daggerpractice.R;
 
+
+import androidx.core.content.ContextCompat;
 import dagger.Module;
 import dagger.Provides;
 
 @Module
 public class AppModule {
 
-    //provides is for creating dependencies
-    //documentations says we shpuld use static for dependencies.
+
+    //dependency  to use glide
     @Provides
-    @Named("someString1")
-    static String someString(){
-        return "This is a test string";
+    static RequestOptions provideRequestOptions() {
+        return RequestOptions.placeholderOf(R.drawable.white_background)
+                .error(R.drawable.white_background);
     }
 
+    //dependency for glide instance
     @Provides
-    @Named("someString2")
-    static String someString2(){
-        return "This is a test string2";
+    static RequestManager provideGlideInstance(Application application, RequestOptions requestOptions) {
+        return Glide.with(application)
+                .setDefaultRequestOptions(requestOptions);
     }
 
-    //false because we passed application in BindInstance in AppComponent
+    //dependency for drawable res for logo
     @Provides
-    static boolean getApp(Application application) {
-        return application == null;
+    static Drawable provideAppDrwable(Application application) {
+        return ContextCompat.getDrawable(application, R.drawable.logo);
     }
-
 
 }
