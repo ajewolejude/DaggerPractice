@@ -24,6 +24,9 @@ public class AuthActivity extends DaggerAppCompatActivity {
     @Named("someString2")
     String message2;
 
+    @Inject
+    boolean isAppNull;
+
 
 
     @Override
@@ -33,6 +36,7 @@ public class AuthActivity extends DaggerAppCompatActivity {
 
         Log.d(TAG, "Oncreate: "+ message);
         Log.d(TAG, "Oncreate: "+ message2);
+        Log.d(TAG, "Oncreate:  is app null? "+ isAppNull);
 
     }
 }

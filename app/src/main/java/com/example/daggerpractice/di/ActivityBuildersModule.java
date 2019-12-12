@@ -16,16 +16,4 @@ public abstract class ActivityBuildersModule {
     abstract AuthActivity contributeAuthActivity();
 
 
-    //example
-    @Provides
-    @Named("someString1")
-    static String someString(){
-        return "This is a test string";
-    }
-
-    @Provides
-    @Named("someString2")
-    static String someString2(){
-        return "This is a test string2";
-    }
 }

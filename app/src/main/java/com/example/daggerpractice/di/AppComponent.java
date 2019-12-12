@@ -13,7 +13,8 @@ import dagger.android.support.AndroidSupportInjectionModule;
 //need the module thing because we extended AndroidInjector
 @Component(modules = {
         AndroidSupportInjectionModule.class,
-        ActivityBuildersModule.class
+        ActivityBuildersModule.class,
+        AppModule.class
 })
 public interface AppComponent extends AndroidInjector<BaseApplication> {
 
