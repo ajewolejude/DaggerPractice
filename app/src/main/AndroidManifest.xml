@@ -3,6 +3,7 @@
     package="com.example.daggerpractice"
     >
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name=".BaseApplication"
         android:allowBackup="true"
