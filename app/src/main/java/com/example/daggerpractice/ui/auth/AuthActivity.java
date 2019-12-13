@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.RequestManager;
@@ -46,6 +47,9 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
     @BindView(R.id.login_button)
     Button loginButton;
 
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,27 +73,59 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
 
-            case R.id.login_button:{
+            case R.id.login_button: {
                 attemptLogin();
                 break;
             }
         }
     }
 
-    private void subscrbeObservers(){
-        authViewModel.observableUser().observe(this, new Observer<User>() {
+    private void subscrbeObservers() {
+
+        authViewModel.observableUser().observe(this, new Observer<AuthResource<User>>() {
             @Override
-            public void onChanged(User user) {
-                if(user != null){
-                    Log.d(TAG, "OnChanged in AuthActivity: "  +user.getEmail());
+            public void onChanged(AuthResource<User> userAuthResource) {
+                if (userAuthResource != null) {
+                    switch (userAuthResource.status) {
+                        case LOADING: {
+                            showProgressBar(true);
+                            break;
+                        }
+
+                        case AUTHENTICATED: {
+                            showProgressBar(false);
+                            Log.d(TAG, "Onchanged: LOGIN SUCCESS: "+ userAuthResource.data.getEmail());
+                            break;
+                        }
+
+                        case ERROR: {
+                            showProgressBar(false);
+                            Toast.makeText(AuthActivity.this, userAuthResource.message + "\n Did you enter no btw 1 and 10", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+
+                        case NOT_AUTHENTICATED: {
+                            showProgressBar(false);
+                            break;
+                        }
+
+                    }
                 }
             }
         });
     }
+
+    private void showProgressBar(boolean isVisible){
+        if (isVisible){
+            progressBar.setVisibility(View.VISIBLE);
+        }else{
+            progressBar.setVisibility(View.GONE);
+        }
+    }
     private void attemptLogin() {
-        if(TextUtils.isEmpty(userInput.getText().toString())){
+        if (TextUtils.isEmpty(userInput.getText().toString())) {
             Toast.makeText(this, "Cannot be empty", Toast.LENGTH_SHORT).show();
             return;
         }
