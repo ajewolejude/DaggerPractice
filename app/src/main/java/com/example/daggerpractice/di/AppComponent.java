@@ -5,12 +5,15 @@ import android.app.Application;
 
 import com.example.daggerpractice.BaseApplication;
 
+import javax.inject.Singleton;
+
 import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjector;
 import dagger.android.support.AndroidSupportInjectionModule;
 
 //need the module thing because we extended AndroidInjector
+@Singleton
 @Component(modules = {
         AndroidSupportInjectionModule.class,
         ActivityBuildersModule.class,
@@ -19,8 +22,6 @@ import dagger.android.support.AndroidSupportInjectionModule;
 })
 public interface AppComponent extends AndroidInjector<BaseApplication> {
 
-    //if we are using the old way.
-    ActivityBuildersModule.AuthActivitySubcomponent.Factory authSubcomponent();
 
     @Component.Builder
     interface Builder{
